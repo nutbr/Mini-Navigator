@@ -1,0 +1,239 @@
+//
+
+//  ViewController.h
+
+//  DesafioMiniNavegador
+
+//
+
+//  Created by Sábado on 27/09/14.
+
+//  Copyright (c) 2014 RUI TOLEDO. All rights reserved.
+
+//
+
+ 
+
+#import <UIKit/UIKit.h>
+
+ 
+
+@interface ViewController : UIViewController <UIWebViewDelegate, UITextFieldDelegate>
+
+ 
+
+ 
+
+@property (weak, nonatomic) IBOutletUIWebView *minhaWebView;
+
+ 
+
+@property (weak, nonatomic) IBOutletUITextField *minhaPagina;
+
+ 
+
+@property (weak, nonatomic) IBOutletUIActivityIndicatorView *minhaAtividade;
+
+ 
+
+ 
+
+ 
+
+- (IBAction)Voltar:(UIButton *)sender;
+
+ 
+
+- (IBAction)Atualizar:(UIButton *)sender;
+
+ 
+
+- (IBAction)Avancar:(UIButton *)sender;
+
+ 
+
+@end
+
+ 
+
+//
+
+//  ViewController.m
+
+//  DesafioMiniNavegador
+
+//
+
+//  Created by Sábado on 27/09/14.
+
+//  Copyright (c) 2014 RUI TOLEDO. All rights reserved.
+
+//
+
+ 
+
+#import "ViewController.h"
+
+ 
+
+@interfaceViewController ()
+
+ 
+
+@end
+
+ 
+
+@implementation ViewController
+
+ 
+
+- (void)viewDidLoad
+
+{
+
+    [superviewDidLoad];
+
+// Do any additional setup after loading the view, typically from a nib.
+
+    self.minhaWebView.delegate=self;
+
+    self.minhaPagina.delegate=self;
+
+    
+
+    self.minhaAtividade.hidden=YES;
+
+    
+
+    
+
+}
+
+ 
+
+- (void)didReceiveMemoryWarning
+
+{
+
+    [superdidReceiveMemoryWarning];
+
+    // Dispose of any resources that can be recreated.
+
+}
+
+ 
+
+- (IBAction)Voltar:(UIButton *)sender
+
+{
+
+    [self.minhaWebViewgoBack];
+
+}
+
+ 
+
+- (IBAction)Atualizar:(UIButton *)sender
+
+{
+
+    [self.minhaWebViewreload];
+
+}
+
+ 
+
+- (IBAction)Avancar:(UIButton *)sender
+
+{
+
+    [self.minhaWebViewgoForward];
+
+}
+
+ 
+
+ 
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+
+{
+
+  
+
+    
+
+    // Criando uma string para ser utilziada na criação de nossa URL
+
+    NSString *enderecoSite = [@"http://" stringByAppendingString: self.minhaPagina.text];
+
+    
+
+    // Criando uma NSUrl (encadeado de baixo para cima)
+
+    NSURL *urlSite = [[NSURL alloc]initWithString:enderecoSite];
+
+    
+
+    // Criando um NSURLRequest
+
+    NSURLRequest *requestUrlSite =[[NSURLRequest alloc] initWithURL:urlSite];
+
+    
+
+    // Carregando a pagina a partir de uma NSURLRequest
+
+    [self.minhaWebView loadRequest:requestUrlSite];
+
+    
+
+    [self.minhaPaginaresignFirstResponder];
+
+    returnYES;
+
+}
+
+ 
+
+ 
+
+ 
+
+-(void)webViewDidStartLoad:(UIWebView *)webView
+
+{
+
+    self.minhaAtividade.hidden=NO;
+
+    [self.viewsetUserInteractionEnabled:NO];
+
+    [self.minhaAtividadestartAnimating];
+
+}
+
+ 
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+
+{
+
+    [self.viewsetUserInteractionEnabled:YES];
+
+    [self.minhaAtividadestopAnimating];
+
+    self.minhaAtividade.hidden=YES;
+
+}
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+@end
